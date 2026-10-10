@@ -81,15 +81,13 @@ O arquivo `sql/queries.sql` traz cinco consultas, também disponíveis na aba **
 | Clientes acima do ticket médio | subquery com `HAVING` |
 | Melhor vendedor de cada mês | CTE e `ROW_NUMBER()` |
 
-## Como rodar localmente
+## Requisitos
 
-Requisitos: Python 3.10 ou superior.
-
+Python 3.10 ou superior.
 
 ## Publicação
 
-O app está hospedado no Streamlit Community Cloud, a partir do repositório no GitHub. A planilha em `data/` e o tema em `.streamlit/` fazem parte do repositório, e o banco é gerado automaticamente no primeiro acesso.
+O app está hospedado no Streamlit Community Cloud, a partir do repositório no GitHub. A planilha em `data/` e o tema em `.streamlit/` fazem parte do repositório, e o banco é gerado automaticamente no primeiro acesso. https://projetothaiveira.streamlit.app/
 
-## Autora
 
 **Thaise Oliveira** [Site](https://thaiveira.com.br) · [LinkedIn](https://linkedin.com/in/thaiveira)
