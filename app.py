@@ -12,6 +12,12 @@ ROOT = Path(__file__).parent
 DB = ROOT / "db" / "vendas.db"
 SQL_DIR = ROOT / "sql"
 
+LILAS = "#8a6bd1"
+LILAS_SUAVE = "#c9b6f2"
+ROSA = "#ff9fc7"
+BRANCO = "#fbfbfb"
+PALETA = [LILAS, ROSA, LILAS_SUAVE, BRANCO]
+
 st.set_page_config(
     page_title="Dashboard de Vendas · Banco de Dados",
     page_icon="💲",
@@ -106,40 +112,43 @@ with tab_dash:
     por_mes = agrupar("strftime('%Y-%m', data)", "mes")
 
     c1, c2, c3 = st.columns(3)
+
     with c1:
         st.altair_chart(
             alt.Chart(por_produto, title="Quantidade vendida por produto")
-            .mark_bar(color="#9DD1F1")
+            .mark_bar(color=LILAS)
             .encode(x="produto:N", y="quantidade:Q", tooltip=["produto", "quantidade"]),
             use_container_width=True)
         st.altair_chart(
             alt.Chart(por_produto, title="Valor total por produto")
-            .mark_bar(color="#9DD1F1")
+            .mark_bar(color=LILAS)
             .encode(x="produto:N", y="valor_pedido:Q", tooltip=["produto", "valor_pedido"]),
             use_container_width=True)
     with c2:
         st.altair_chart(
             alt.Chart(por_cliente, title="Valor vendido por cliente")
-            .mark_bar(color="#666", cornerRadiusTopLeft=9, cornerRadiusBottomRight=9)
+            .mark_bar(color=ROSA, cornerRadiusTopLeft=9, cornerRadiusBottomRight=9)
             .encode(x=alt.X("cliente:N", sort="-y"), y="valor_pedido:Q",
                     tooltip=["cliente", "quantidade", "valor_pedido"]),
             use_container_width=True)
         st.altair_chart(
             alt.Chart(por_mes, title="Vendas mensais")
-            .mark_line(color="#666", point=True)
+            .mark_line(color=LILAS, point=alt.OverlayMarkDef(color=ROSA))
             .encode(x=alt.X("mes:O", title="Mês"), y="valor_pedido:Q",
                     tooltip=["mes", "valor_pedido"]),
             use_container_width=True)
     with c3:
         st.altair_chart(
             alt.Chart(por_vendedor, title="Valor de venda por vendedor")
-            .mark_arc(innerRadius=70, outerRadius=120)
-            .encode(theta="valor_pedido:Q", color="vendedor:N",
-                    tooltip=["vendedor", "valor_pedido"]),
+            .mark_bar(cornerRadiusTopLeft=9, cornerRadiusTopRight=9)
+            .encode(x=alt.X("vendedor:N", sort="-y"), y="valor_pedido:Q",
+                    color=alt.Color("vendedor:N", scale=alt.Scale(range=PALETA), legend=None),
+                    tooltip=["vendedor", "quantidade", "valor_pedido"]),
             use_container_width=True)
+
         st.altair_chart(
             alt.Chart(por_regiao, title="Valor de venda por região")
-            .mark_bar(color="#9DD1F1")
+            .mark_bar(color=LILAS_SUAVE)
             .encode(y=alt.Y("regiao:N", sort="-x"), x="valor_pedido:Q",
                     tooltip=["regiao", "valor_pedido"]),
             use_container_width=True)
