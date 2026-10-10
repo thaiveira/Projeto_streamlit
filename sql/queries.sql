@@ -1,3 +1,4 @@
+-- name: Faturamento e margem por vendedor
 SELECT vendedor,
        COUNT(*)                                        AS pedidos,
        ROUND(SUM(valor_pedido), 2)                     AS faturamento,
@@ -7,6 +8,7 @@ FROM vw_vendas
 GROUP BY vendedor
 ORDER BY faturamento DESC;
 
+-- name: Ranking de produtos por região (window function)
 SELECT regiao, produto, faturamento,
        RANK() OVER (PARTITION BY regiao ORDER BY faturamento DESC) AS posicao
 FROM (
@@ -16,6 +18,7 @@ FROM (
 )
 ORDER BY regiao, posicao;
 
+-- name: Evolução mensal com acumulado (CTE + window function)
 WITH mensal AS (
     SELECT strftime('%Y-%m', data) AS mes,
            ROUND(SUM(valor_pedido), 2) AS faturamento
@@ -27,6 +30,7 @@ SELECT mes, faturamento,
 FROM mensal
 ORDER BY mes;
 
+-- name: Clientes acima do ticket médio (subquery)
 SELECT cliente,
        ROUND(AVG(valor_pedido), 2) AS ticket_medio
 FROM vw_vendas
@@ -34,6 +38,7 @@ GROUP BY cliente
 HAVING AVG(valor_pedido) > (SELECT AVG(valor_pedido) FROM vw_vendas)
 ORDER BY ticket_medio DESC;
 
+-- name: Melhor vendedor de cada mês (CTE + ROW_NUMBER)
 WITH vendas_mes AS (
     SELECT strftime('%Y-%m', data) AS mes, vendedor,
            ROUND(SUM(valor_pedido), 2) AS faturamento
