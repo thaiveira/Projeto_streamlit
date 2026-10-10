@@ -4,7 +4,7 @@ Projeto de banco de dados que transforma uma planilha de vendas em um modelo rel
 
 **App online:** https://projetothaiveira.streamlit.app/
 
-![Dashboard de vendas](docs/dashboard.png)
+![Dashboard de vendas](dashboard.png)
 
 ## O que o projeto faz
 
